@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automatic solar street light control system — Fardina Rabby Muna</title>
+<meta name="description" content="A solar-charged, sensor-driven street lighting prototype built on Arduino Nano with LDR day/night detection and IR vehicle tracking.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="mark" href="index.html">Fardina Rabby Muna</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="thesis.html">Thesis</a>
+      <a href="index.html#work" aria-current="page">Work</a>
+      <a href="industrial-exposure.html">Site experience</a>
+      <a href="index.html#toolkit">Toolkit</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="detail-head">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-warm">Hardware project · Built and tested</span>
+      <h1>Automatic solar street light control system</h1>
+      <p class="lead">
+        A street lighting prototype that runs entirely on stored solar energy and lights only
+        the span a vehicle is actually travelling under — rather than burning the whole road
+        all night.
+      </p>
+      <div class="plate" style="max-width:520px;">
+        <div class="plate-head">Project record</div>
+        <div class="plate-row"><span class="plate-key">Role</span><span class="plate-val">Sole designer, builder and tester</span></div>
+        <div class="plate-row"><span class="plate-key">Completed</span><span class="plate-val">December 2023</span></div>
+        <div class="plate-row"><span class="plate-key">Supervisor</span><span class="plate-val">Md. Jahangir Hossain, Assistant Professor</span></div>
+        <div class="plate-row"><span class="plate-key">Department</span><span class="plate-val">Energy Science &amp; Engineering, KUET</span></div>
+        <div class="plate-row"><span class="plate-key">Controller</span><span class="plate-val">Arduino Nano (ATmega328P)</span></div>
+        <div class="plate-row"><span class="plate-key">Sensing</span><span class="plate-val">1 × LDR, 3 × IR obstacle sensors</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-body">
+    <div class="wrap detail-grid">
+
+      <div class="prose">
+
+        <h3>The problem</h3>
+        <p>
+          Manually switched street lighting wastes energy in two distinct ways. It stays lit
+          into the morning because nobody switches it off at first light, and it runs at full
+          output through the small hours when the road is empty. Street lighting is one of the
+          largest single line items in a municipal energy budget, so both failures are
+          expensive and both are avoidable.
+        </p>
+        <p>
+          The design brief was to remove human intervention from the loop entirely, and to run
+          the whole thing off photovoltaic generation so it does not draw from the grid at all.
+        </p>
+
+        <h3>Approach</h3>
+        <p>
+          Two sensing layers, working in series. A light-dependent resistor establishes whether
+          it is day or night; below that threshold nothing happens regardless of traffic. Once
+          it is dark, three infrared obstacle sensors spaced along the road determine which
+          section of it is occupied, and only the lamps over that section come on.
+        </p>
+        <p>
+          Solar panels charge a 2-series lithium-ion pack through a battery management module
+          during the day, and the pack runs the controller and lamps overnight. LEDs were
+          chosen over high-intensity discharge lamps for the same reason the whole system
+          exists: less energy for the same useful light, and a longer service life.
+        </p>
+
+        <figure class="figure">
+          <img src="fig-block-diagram.png" alt="Block diagram: solar panels charge batteries through a BMS module; LDR and IR sensors feed the Arduino Nano, which drives the LEDs">
+          <figcaption>System block diagram — generation and storage on the left, sensing and control on the right.</figcaption>
+        </figure>
+
+        <h3>The part worth explaining</h3>
+        <p>
+          The interesting piece is not the day/night switching, which is trivial. It is how the
+          controller decides whether a span of road is occupied without any position sensing.
+        </p>
+        <p>
+          Each IR sensor gets a counter that increments once per clean transition as something
+          passes it — the state machine requires the sensor to go clear before it will count
+          again, which debounces a single vehicle into a single count. The occupancy of the
+          span between any two sensors is then simply the difference between their two
+          counters, clamped at zero. When that difference is positive, something is inside the
+          span and the lamp above it is driven; when it returns to zero, the lamp goes out.
+        </p>
+        <p>
+          This gives a lamp that switches on ahead of the vehicle reaching it and off behind
+          it, using nothing but two counters and a subtraction.
+        </p>
+
+        <div class="code">int Day0_Night_1 = digitalRead(ldr);
+if (Day0_Night_1 == 0) { analogWrite(led0_1, 0); analogWrite(led1_2, 0); }
+else if (Day0_Night_1 == 1) { Lightcontrol(); }
+
+LIGHT[0] = TOGGLE[1] - TOGGLE[0];
+LIGHT[1] = TOGGLE[2] - TOGGLE[1];
+if (LIGHT[0] &lt; 0) { LIGHT[0] = 0; }
+if (LIGHT[1] &lt; 0) { LIGHT[1] = 0; }</div>
+
+        <figure class="figure" style="max-width:400px;">
+          <img src="fig-flowchart.png" alt="Control flowchart: check LDR for night, then check IR for motion, then turn the LED on">
+          <figcaption>Control flow — the day/night gate takes priority over the motion layer.</figcaption>
+        </figure>
+
+        <h3>Bill of materials</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th scope="col">Component</th><th scope="col">Qty</th><th scope="col">Function</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Solar cell</td><td>3</td><td>Photovoltaic generation</td></tr>
+            <tr><td>Li-ion cell</td><td>2</td><td>Overnight energy storage (2S pack)</td></tr>
+            <tr><td>BMS module</td><td>1</td><td>2S protection board, 8 A continuous</td></tr>
+            <tr><td>Arduino Nano</td><td>1</td><td>Control logic</td></tr>
+            <tr><td>LDR sensor</td><td>1</td><td>Day / night discrimination</td></tr>
+            <tr><td>IR sensor</td><td>3</td><td>Vehicle detection along the span</td></tr>
+            <tr><td>LED</td><td>2</td><td>Roadway illumination</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Testing and results</h3>
+        <p>
+          The prototype was built as a one-way road section with three sensors and two lamps,
+          and tested in both lighting conditions.
+        </p>
+        <p>
+          With light falling on the panels the lamps stayed off even with vehicles moving on
+          the board, confirming the LDR gate holds priority over the motion layer. After dark,
+          a vehicle passing the first sensor triggered detection without lighting the first
+          lamp — correct, because it had not yet entered that span. The lamp came on as the
+          vehicle moved underneath it, and when the vehicle passed the second sensor the second
+          lamp lit and the first switched off in the same step. With two vehicles on the board
+          in different spans, both lamps ran simultaneously.
+        </p>
+
+        <figure class="figure">
+          <img src="fig-4-1-system.jpg" alt="The complete test rig: a one-way road section with three IR sensors and two LED street lamps">
+          <figcaption>The complete rig — a one-way road section with three IR sensors (IR 1–3) and two LED lamps.</figcaption>
+        </figure>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="fig-4-2a-ldr-day.jpg" alt="LDR under bright light, indicating daytime mode">
+            <figcaption>LDR under illumination — daytime mode.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="fig-4-2b-ldr-night.jpg" alt="LDR in darkness, indicating night mode">
+            <figcaption>LDR in darkness — night mode enabled.</figcaption>
+          </figure>
+        </div>
+
+        <figure class="figure">
+          <img src="fig-4-3-day-off.jpg" alt="Lamps remaining off during daytime despite vehicles moving on the board">
+          <figcaption>Daytime gate holding: vehicles are moving, the lamps stay off.</figcaption>
+        </figure>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="fig-4-4-ir1.jpg" alt="First IR sensor detecting a vehicle at night, first lamp still off">
+            <figcaption>IR 1 detects the vehicle — lamp 1 correctly stays off, the span is not yet occupied.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="fig-4-5-led1-on.jpg" alt="First lamp illuminated as the vehicle travels beneath it">
+            <figcaption>Lamp 1 lights as the vehicle enters the span beneath it.</figcaption>
+          </figure>
+        </div>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="fig-4-6-ir2.jpg" alt="Second IR sensor detecting the vehicle while the first lamp remains lit">
+            <figcaption>IR 2 detects the vehicle; lamp 1 is still lit behind it.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="fig-4-7-led2-on.jpg" alt="Second lamp on and first lamp off as the vehicle moves into the next span">
+            <figcaption>Handover: lamp 2 on, lamp 1 off, in the same step.</figcaption>
+          </figure>
+        </div>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="fig-4-8-ir3.jpg" alt="Third IR sensor detecting the vehicle leaving the second span">
+            <figcaption>IR 3 registers the vehicle leaving; lamp 2 extinguishes behind it.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="fig-4-9-both-on.jpg" alt="Both lamps lit simultaneously with two vehicles in different spans">
+            <figcaption>Two vehicles, two occupied spans, both lamps running.</figcaption>
+          </figure>
+        </div>
+
+        <div class="note">
+          <strong>On the savings figure.</strong> Comparable systems in the literature report
+          70–85% reductions against sodium vapour street lighting. That number comes from
+          published studies, not from measurement on this prototype — the build validated the
+          control logic, not the energy saving. Quantifying the actual saving would need
+          metered comparison against a conventional installation over a full night cycle.
+        </div>
+
+        <h3>What I would do differently</h3>
+        <p>
+          The counter-difference scheme assumes traffic flows in one direction and that every
+          vehicle triggers every sensor. A vehicle that reverses, or two vehicles passing a
+          sensor near-simultaneously, will desynchronise the counters with no mechanism to
+          recover. A production version needs either directional sensing or a periodic reset at
+          a known-empty state. I would also add dimming rather than binary on/off, so an
+          unoccupied span sits at low output instead of dark.
+        </p>
+
+        <div class="page-nav">
+          <a href="index.html#work">← All work</a>
+          <a href="thesis.html">Thesis →</a>
+        </div>
+
+      </div>
+
+      <aside class="sticky-rail">
+        <div class="plate">
+          <div class="plate-head">At a glance</div>
+          <div class="plate-row"><span class="plate-key">Type</span><span class="plate-val">Embedded control + PV</span></div>
+          <div class="plate-row"><span class="plate-key">Sensors</span><span class="plate-val">LDR + 3 × IR</span></div>
+          <div class="plate-row"><span class="plate-key">Storage</span><span class="plate-val">2S Li-ion, BMS protected</span></div>
+          <div class="plate-row"><span class="plate-key">Output</span><span class="plate-val">2 × LED luminaire</span></div>
+          <div class="plate-row"><span class="plate-key">Language</span><span class="plate-val">C / Arduino</span></div>
+          <div class="plate-row"><span class="plate-key">Status</span><span class="plate-val">Built, bench tested</span></div>
+        </div>
+        <p style="margin-top:1.25rem;font-size:0.9rem;">
+          <a href="1913006__FARDINA__final_project_report.pdf">Full project report (PDF)</a>
+        </p>
+      </aside>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    Fardina Rabby Muna — Energy Science &amp; Engineering, KUET.
+    <a href="index.html">Home</a>
+  </div>
+</footer>
+
+</body>
+</html>

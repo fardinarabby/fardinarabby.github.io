@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thesis — Passive and active cooling with rooftop solar for community clinics</title>
+<meta name="description" content="DesignBuilder simulation of false ceiling, mechanical ventilation and rooftop PV at a community clinic in Khulna — 4.68 °C indoor temperature reduction and 35.01% annual energy saving.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="mark" href="index.html">Fardina Rabby Muna</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="thesis.html" aria-current="page">Thesis</a>
+      <a href="index.html#work">Work</a>
+      <a href="industrial-exposure.html">Site experience</a>
+      <a href="index.html#toolkit">Toolkit</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="detail-head">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-cool">Undergraduate thesis · Featured work</span>
+      <h1>Cooling a rural clinic for a third less energy</h1>
+      <p class="lead">
+        Numerical analysis of passive and active cooling strategies with rooftop solar
+        integration for indoor comfort and energy efficiency in community clinics in
+        Bangladesh. Combining a false ceiling, mechanical ventilation and rooftop PV cut mean
+        indoor temperature by 4.68&nbsp;°C and annual energy consumption by 35.01%.
+      </p>
+    </div>
+  </section>
+
+  <section class="detail-body">
+    <div class="wrap detail-grid">
+
+      <div class="prose">
+
+        <h3>Why community clinics</h3>
+        <p>
+          Community clinics are the first point of healthcare contact across rural and
+          underdeveloped regions of Bangladesh. In the humid season, fans are typically the
+          only cooling available — and fans alone do not deliver a comfortable indoor
+          environment. The result is a building that is uncomfortable to work in and to be
+          treated in, with operating costs that keep climbing as energy prices rise.
+        </p>
+        <p>
+          Plenty of research exists on thermal comfort strategies, and plenty on rooftop solar.
+          What was missing was the combination: how passive measures, active ventilation and
+          photovoltaic generation behave together when you are optimising indoor temperature
+          and total energy consumption at the same time. That gap is what this study set out
+          to close.
+        </p>
+
+        <h3>The proposed system</h3>
+        <p>
+          Three interventions layered on one roof. A false ceiling introduces an air gap that
+          resists heat transfer from the roof into the occupied space. An exhaust fan ventilates
+          that gap, carrying away the heat accumulating inside it before it can reach the room.
+          Rooftop photovoltaic panels shade the roof and generate against the remaining demand.
+        </p>
+
+        <figure class="figure">
+          <img src="th-schematic.png" alt="Schematic cross-section: solar panels above the roof, an air gap and false ceiling below it, an exhaust fan drawing hot air out, and the occupied indoor space beneath">
+          <figcaption>Schematic of the proposed system — PV above the roof, ventilated air gap between roof and false ceiling, occupied space below.</figcaption>
+        </figure>
+
+        <h3>Objectives</h3>
+        <ul>
+          <li>Model an existing building in DesignBuilder.</li>
+          <li>Analyse indoor temperature and annual energy consumption under passive and active cooling strategies and integrated rooftop solar panels.</li>
+          <li>Compare those cases against each other to identify an optimised configuration.</li>
+        </ul>
+
+        <h3>The building</h3>
+        <p>
+          Rahimnogor Community Clinic in Khulna was used as the case building — modelled from
+          its actual location, orientation and construction rather than a generic archetype.
+          Roof, wall, floor and false ceiling assemblies were each specified layer by layer,
+          and a sun path analysis for the site established the panel geometry: 23° tilt, 47°
+          azimuth, 25.3° solar elevation.
+        </p>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="th-site-map.jpg" alt="Satellite map showing the location of Rahimnogor Community Clinic">
+            <figcaption>Site location on satellite map.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="th-clinic-photo.png" alt="Photograph of Rahimnogor Community Clinic">
+            <figcaption>The clinic as built, Khulna.</figcaption>
+          </figure>
+        </div>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="th-3d-base.png" alt="DesignBuilder 3D model of the clinic without false ceiling or mechanical ventilation">
+            <figcaption>Base case — no false ceiling, no mechanical ventilation.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="th-3d-solar.png" alt="DesignBuilder 3D model of the clinic with false ceiling, mechanical ventilation and rooftop solar panels">
+            <figcaption>Full case — false ceiling, ventilation and rooftop PV.</figcaption>
+          </figure>
+        </div>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="th-floorplan.png" alt="Floor plan of the clinic">
+            <figcaption>Floor plan.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="th-sunpath.png" alt="Sun path diagram for the clinic location">
+            <figcaption>Sun path — tilt 23°, azimuth 47°, elevation 25.3°.</figcaption>
+          </figure>
+        </div>
+
+        <figure class="figure">
+          <img src="th-methodology.png" alt="Stepwise block diagram of the study methodology">
+          <figcaption>Methodology, step by step.</figcaption>
+        </figure>
+
+        <h3>Validating the model first</h3>
+        <p>
+          Before trusting any result, the simulation was validated against published
+          experimental work — Mechouet et al., who measured PCM-incorporated walls under
+          Moroccan climate conditions. Reproducing their outside temperature and indoor
+          temperature profiles for PCM 21 and PCM 23 established that the model behaves
+          correctly before it was pointed at a different building and a different climate.
+        </p>
+
+        <h3>Result 1 — the air gap does most of the passive work</h3>
+        <p>
+          Widening the air gap between roof and false ceiling produced a progressive drop in
+          mean indoor temperature: 2.4&nbsp;°C at 0.15&nbsp;m, rising to 2.9&nbsp;°C at
+          0.40&nbsp;m. The mechanism is straightforward — the gap resists heat transfer and acts
+          as a thermal buffer, so the wider it is, the more it slows heat flow into the room.
+        </p>
+
+        <figure class="figure">
+          <img src="th-fig9-airgap-temp.jpg" alt="Line graph of 24-hour indoor temperature for the base case and false ceilings with 0.15, 0.20, 0.30 and 0.40 m air gaps against outside temperature">
+          <figcaption>
+            Indoor temperature across 24 hours. The base case tracks the outdoor swing up to
+            38&nbsp;°C; every false ceiling case flattens it to roughly 33&nbsp;°C.
+          </figcaption>
+        </figure>
+
+        <p>
+          The energy picture follows the same shape. Annual consumption falls from 8,479.89 kWh
+          in the base case to 7,162.29 kWh with a 0.40&nbsp;m gap — a 15.54% reduction from a
+          measure with no moving parts and no running cost.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th scope="col">Case</th><th scope="col">Annual energy (kWh)</th><th scope="col">Reduction</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Base case</td><td>8,479.89</td><td class="muted">—</td></tr>
+            <tr><td>0.15 m gap</td><td>7,610.28</td><td>10.25%</td></tr>
+            <tr><td>0.20 m gap</td><td>7,481.44</td><td>11.77%</td></tr>
+            <tr><td>0.30 m gap</td><td>7,316.78</td><td>13.72%</td></tr>
+            <tr><td>0.40 m gap</td><td>7,162.29</td><td>15.54%</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Result 2 — ventilating the gap roughly doubles the benefit</h3>
+        <p>
+          A static air gap traps heat. Scheduling an exhaust fan across the clinic's operating
+          hours, 8:00 AM to 5:00 PM, removes that accumulated heat by convection before it
+          reaches the occupied space. At a 0.15&nbsp;m gap, mean indoor temperature drop rises
+          from 2.71&nbsp;°C at 3 ACH to 3.35&nbsp;°C at 6 ACH. Paired with the widest gap, the
+          combination reaches 3.88&nbsp;°C and a 25.33% annual energy reduction.
+        </p>
+
+        <figure class="figure">
+          <img src="th-fig10-vent-temp.jpg" alt="Line graph of indoor temperature for false ceiling with 0.15 m air gap at 3, 4.5 and 6 air changes per hour">
+          <figcaption>Ventilation rate against indoor temperature, 0.15&nbsp;m air gap.</figcaption>
+        </figure>
+
+        <table class="data-table">
+          <thead>
+            <tr><th scope="col">Ventilation rate</th><th scope="col">0.15 m gap</th><th scope="col">0.30 m gap</th><th scope="col">0.40 m gap</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>None</td><td>7,610.28</td><td>7,316.78</td><td>7,162.29</td></tr>
+            <tr><td>3 ACH</td><td>7,200.29</td><td>6,900.98</td><td>6,747.03</td></tr>
+            <tr><td>4.5 ACH</td><td>6,914.61</td><td>6,653.82</td><td>6,488.35</td></tr>
+            <tr><td>6 ACH</td><td>6,736.92</td><td>6,470.29</td><td>6,331.82</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="font-size:0.9rem;">Total annual energy consumption in kWh, against a base case of 8,479.89 kWh.</p>
+
+        <h3>Result 3 — solar closes the gap in the months that matter</h3>
+        <p>
+          Adding rooftop PV to a 0.30&nbsp;m false ceiling running at 6 ACH brings the total
+          mean indoor temperature reduction to 4.68&nbsp;°C and annual consumption down to
+          5,511.26 kWh — a 35.01% cut against the base case, with the panels contributing
+          958.93 kWh of net annual generation.
+        </p>
+        <p>
+          The monthly breakdown is where the value shows most clearly. In July, consumption
+          falls from 786.56 kWh in the base case to 565.24 kWh with the false ceiling alone,
+          and to 468.26 kWh once the panels are added. The savings concentrate in exactly the
+          summer months when the cooling demand — and the solar resource — are both at their
+          highest.
+        </p>
+
+        <div class="figure figure-pair">
+          <figure style="margin:0;">
+            <img src="th-fig17-solar-temp.jpg" alt="Indoor temperature with false ceiling, 6 ACH ventilation and solar panels">
+            <figcaption>Indoor temperature, full combined case.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="th-fig18-monthly-energy.png" alt="Monthly energy consumption comparing base case, false ceiling with 6 ACH, and the same with solar panels">
+            <figcaption>Monthly energy — the three cases diverge sharply March to October.</figcaption>
+          </figure>
+        </div>
+
+        <h3>Conclusions</h3>
+        <ul>
+          <li>A false ceiling with a 0.40&nbsp;m air gap alone gives a 2.9&nbsp;°C mean indoor temperature reduction and 15.54% annual energy saving.</li>
+          <li>Adding mechanical ventilation at 6 ACH to that gap raises it to 3.88&nbsp;°C and 25.33%.</li>
+          <li>A 0.30&nbsp;m gap with 6 ACH ventilation and rooftop solar delivers 4.68&nbsp;°C and 35.01% — the optimised configuration, and the one I would recommend.</li>
+        </ul>
+        <p>
+          Worth noting that the optimum uses the 0.30&nbsp;m gap rather than the widest one.
+          Beyond a point, ceiling height given up to the void costs more than the extra
+          insulation returns — which is the kind of trade-off that only shows up once you model
+          the whole system together rather than each measure in isolation.
+        </p>
+
+        <div class="page-nav">
+          <a href="index.html">← Home</a>
+          <a href="project-street-light.html">Street light project →</a>
+        </div>
+
+      </div>
+
+      <aside class="sticky-rail">
+        <div class="plate">
+          <div class="plate-head">Study record</div>
+          <div class="plate-row"><span class="plate-key">Software</span><span class="plate-val">DesignBuilder</span></div>
+          <div class="plate-row"><span class="plate-key">Case building</span><span class="plate-val">Rahimnogor Community Clinic</span></div>
+          <div class="plate-row"><span class="plate-key">Location</span><span class="plate-val">Khulna, Bangladesh</span></div>
+          <div class="plate-row"><span class="plate-key">Validated vs</span><span class="plate-val">Mechouet et al. (2021)</span></div>
+          <div class="plate-row"><span class="plate-key">PV geometry</span><span class="plate-val">23° tilt · 47° azimuth</span></div>
+          <div class="plate-row"><span class="plate-key">Supervisor</span><span class="plate-val">Dr. Md. Hasan Ali, Professor</span></div>
+          <div class="plate-row"><span class="plate-key">Course</span><span class="plate-val">ESE 4000, KUET</span></div>
+          <div class="plate-row"><span class="plate-key">Defended</span><span class="plate-val">10 September 2025</span></div>
+        </div>
+
+        <div class="plate" style="margin-top:1.25rem;">
+          <div class="plate-head">Headline results</div>
+          <div class="plate-row"><span class="plate-key">Temp. drop</span><span class="plate-val">4.68 °C mean indoor</span></div>
+          <div class="plate-row"><span class="plate-key">Energy cut</span><span class="plate-val">35.01% annual</span></div>
+          <div class="plate-row"><span class="plate-key">Base case</span><span class="plate-val">8,479.89 kWh/yr</span></div>
+          <div class="plate-row"><span class="plate-key">Optimised</span><span class="plate-val">5,511.26 kWh/yr</span></div>
+          <div class="plate-row"><span class="plate-key">PV yield</span><span class="plate-val">958.93 kWh/yr net</span></div>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    Fardina Rabby Muna — Energy Science &amp; Engineering, KUET.
+    <a href="index.html">Home</a>
+  </div>
+</footer>
+
+</body>
+</html>
