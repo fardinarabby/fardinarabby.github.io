@@ -384,6 +384,17 @@ p:last-child { margin-bottom: 0; }
 .detail-head h1 { max-width: 20ch; margin-bottom: 1.1rem; }
 .detail-head .lead { margin-bottom: 2rem; }
 
+/* Long academic titles: step the size down and let the line run wider,
+   so a 25-word title reads as a title rather than a wall. */
+.detail-head h1.title-long {
+  font-size: clamp(1.45rem, 2.9vw, 2.15rem);
+  line-height: 1.24;
+  letter-spacing: -0.012em;
+  font-weight: 500;
+  max-width: 32ch;
+  text-wrap: pretty;
+}
+
 .detail-body { padding: 3rem 0; }
 
 .detail-grid { display: grid; grid-template-columns: 1fr 300px; gap: 3.5rem; align-items: start; }
