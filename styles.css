@@ -68,6 +68,20 @@ p:last-child { margin-bottom: 0; }
 
 .lead { font-size: 1.2rem; line-height: 1.6; color: var(--text); max-width: 46ch; }
 
+/* Keep the hero paragraph edges visually aligned. */
+@media (min-width: 640px) {
+  .hero .lead { text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; }
+}
+
+/* Justified body text. Hyphenation is what stops justification opening
+   rivers of white space; below ~640px the measure is too narrow for it
+   to look good either way, so it falls back to ragged right. */
+.justify { hyphens: auto; -webkit-hyphens: auto; }
+
+@media (min-width: 640px) {
+  .justify { text-align: justify; text-justify: inter-word; }
+}
+
 .eyebrow {
   font-family: var(--mono);
   font-size: 0.7rem;
